@@ -16,9 +16,7 @@ rake delayed_job_admin:copy_assets
 
 Ensure the style is included in your layout:
   <%= stylesheet_link_tag    'delayed_job_admin' %>
-  
-Before the </body> tag in your layout, add:
-  <%= yield :javascript %>  
+  <%= javascript_include_tag    'delayed_job_admin' %>
 
 === Usage ===
 
@@ -39,5 +37,3 @@ module DelayedJobAdmin
     
   end
 end
-
-Test

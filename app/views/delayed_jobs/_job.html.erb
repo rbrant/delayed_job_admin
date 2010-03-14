@@ -1,34 +1,62 @@
-<li id='<%= dom_id(job) %>' class="job <%= job.statuses.join(' ') %>">
+<li id='<%= dom_id(job) %>' class="job <%= job.statuses.join(' ') %> <%= cycle 'odd', 'even' %>">
   <div class="summary">
-    <%= job.run_at.to_s(:short) %>
-    <a href="#details_link" class="details_link"><%= job.humanized_handler %></a>
+    <span>
+      <%= job.run_at.to_s(:short) %>
+    </span>
     <span class="actions">
       <%= link_to 'delete', delayed_job_path(job), :method => :delete, :class => 'dangerous' %>
     </span>
+    <span>
+      <% job.statuses.each do |status| %>
+        <%= content_tag(:span, status, :class => status) %> 
+      <% end %>
+    </span>
+    <div><a href="#details_link" class="details_link"><%= job.humanized_handler %></a></div>
   </div>
   <div class="details">
-    <% if job.priority? %>
-    <div class="priority">
-      <span class="title">Priority</span> <%= job.priority %>
-    </div>
-    <% end %>
-    <% if job.locked_at? %>
-    <div class="locked">
-    <span class="title">Locked by</span> <%= job.locked_by  %>
-    <span class="title">on</span> <%= job.locked_at.to_s(:long)  %>
-    </div>
-    <% end %>
-    <% if job.failed? %>
-    <div class="failed">
-     <%= job.attempts.ordinalize   %> 
-      <span class="title">attempt failed</span> <%= job.failed_at.to_s(:long)  %>
-      <pre class="backtrace"><%= job.last_error %></pre>
-    </div>
-    <% end %>
-    <div class="timestamps">
-      <span class="title">Created</span> <%= job.created_at.to_s(:long) %>
-      <span class="title">last updated</span> <%= job.updated_at.to_s(:long) %>
-    </div>
+    <table>
+      <tr>
+        <th>Handler</th>
+        <th>Run Date</th>
+        <th>Priority</th>
+        <th>Locked</th>
+        <th>Attempts</th>
+        <th>Failed</th>
+        <th>Created</th>
+        <th>Updated</th>
+      </tr>
+      <tr>
+        <td><%= job.humanized_handler %></td>
+        <td>
+          <% if job.run_at? %>
+            <%= job.run_at.to_s(:short) %>
+          <% end %>
+        </td>
+        <td><%= job.priority %></td>
+        <td>
+          <% if job.locked_by? %>
+            Locked by <%= job.locked_by %> on <%= job.locked_at.to_s(:short)  %>
+          <% end %>
+        </td>
+        <td><%= job.attempts %></td>
+        <td>
+           <% if job.failed_at? %>
+             <%= job.failed_at.to_s(:short)  %>
+           <% end %>
+        </td>
+        <td><%= job.created_at.to_s(:short) %></td>
+        <td><%= job.updated_at.to_s(:short) %></td>
+      </tr>
+      <% if job.last_error %>
+        <tr>
+          <td colspan='8' class='backtrace'>
+            <pre>
+              <%= job.last_error %>
+            </pre>
+          </td>
+        </tr>
+      <% end %>
+    </table>
   </div>
 </li>    
  

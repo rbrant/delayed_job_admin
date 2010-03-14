@@ -1,32 +1,23 @@
-DelayedJob = {};
-DelayedJob.UI = {
-
-  tabTo: function(element) {
-    element.siblings('.active').removeClass('active');
-    element.addClass('active');
-  },
-
-  filterJobs: function(tab, selector) {
-    this.tabTo($(tab));
-    this.bounce('.jobs', function() {
-      DelayedJob.UI.filter('.job', selector);
-    });
-  },
-
-  bounce: function(selector, callback) {
-    var element = $(selector);
-    element.slideUp(function() {
-      callback();
-      element.slideDown('slow'); 
-    });
-  },
-
-  filter: function(selector, filter_selector) {
-    if (filter_selector) {
-      $(selector).hide();
-      selector += filter_selector;
-    }
-    $(selector).show();
-  }
+$(document).ready(function() {
   
-};
+  // Toggle
+  $('.job .details').hide();
+  
+  $('.job .details_link').click(function() { 
+    $(this).parents('.job').children('.details').slideToggle('fast');
+  });
+  
+  // Filter
+  $('.failed_jobs').click(function() {
+		$('.job').hide()
+		$('.failed').show();
+  })
+  $('.locked_jobs').click(function() {
+		$('.job').hide()
+		$('.locked').show();
+  })
+  $('.total_jobs').click(function() {
+  	$('.job').show();
+  })
+
+});
