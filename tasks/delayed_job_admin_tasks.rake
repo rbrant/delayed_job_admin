@@ -13,6 +13,12 @@ namespace :delayed_job_admin do
       puts "Copying #{asset_plugin_path} to #{asset_public_path}"
       FileUtils.copy_entry(asset_plugin_path, asset_public_path, false, false, true) 
     end
-
+  end
+  
+  desc "Create config file."
+  task :create_config do
+    puts "Creating #{RAILS_ROOT}/config/delayed_job_admin.yml" 
+    dj_config = File.new("#{RAILS_ROOT}/config/delayed_job_admin.yml", "w") 
+    dj_config.puts("parent_controller_class: MyDelayedJobController")
   end
 end

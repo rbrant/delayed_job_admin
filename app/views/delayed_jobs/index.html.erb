@@ -1,7 +1,8 @@
 <%= javascript_include_tag 'delayed_job_admin' %>
 <%= stylesheet_link_tag 'delayed_job_admin' %>
 
-<h2>Delayed Jobs</h2>
+<h2><%= @dj_admin_settings['heading'] || "Jobs" %></h2>
+
 <div id="delayed_job_admin">
   <div class="overview">
     <% @statistics.each do |title, count| %>

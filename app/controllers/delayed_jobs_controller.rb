@@ -1,5 +1,5 @@
 class DelayedJobsController < DelayedJobAdmin::Config.parent_controller_class
-  #unloadable
+  before_filter :load_settings
   
   def index
     @statistics = current_model.statistics
@@ -30,6 +30,10 @@ class DelayedJobsController < DelayedJobAdmin::Config.parent_controller_class
   
   def current_model
     Delayed::Job
+  end
+  
+  def load_settings
+    @dj_admin_settings = DelayedJobAdmin::Config::settings
   end
   
 end
